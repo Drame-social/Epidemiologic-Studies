@@ -1,0 +1,12 @@
+library(readr); library(broom)
+analysis <- read_csv("data/processed/r_analysis_ready.csv", show_col_types=FALSE)
+dir.create("outputs/r/linear_regression", recursive=TRUE, showWarnings=FALSE)
+analysis$provider_type <- relevel(factor(analysis$provider_type), ref="Public Health Clinic")
+analysis$rural_urban <- relevel(factor(analysis$rural_urban), ref="Urban")
+analysis$time_in_program_cat <- relevel(factor(analysis$time_in_program_cat), ref="4-7 years")
+# Classical OLS standard errors are used to align with Python and SAS.
+model <- lm(compliance_score ~ provider_type + rural_urban + time_in_program_cat + log_doses_administered + site_visit_delay_days + staff_turnover + prior_technical_assistance + prior_noncompliance + factor(visit_year), data=analysis)
+write_csv(tidy(model, conf.int=TRUE), "outputs/r/linear_regression/linear_regression_compliance_score.csv")
+writeLines(capture.output(summary(model)), "outputs/r/linear_regression/linear_regression_summary.txt")
+fit <- summary(model)
+write_csv(data.frame(metric=c("r_squared","adjusted_r_squared"), value=c(fit$r.squared, fit$adj.r.squared)), "outputs/r/linear_regression/linear_regression_fit_metrics.csv")

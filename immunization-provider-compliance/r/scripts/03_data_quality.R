@@ -1,0 +1,8 @@
+library(dplyr); library(readr)
+raw <- read_csv("data/raw/synthetic_provider_compliance_raw.csv", show_col_types=FALSE)
+clean <- read_csv("data/processed/r_cleaned_all_visits.csv", show_col_types=FALSE)
+analysis <- read_csv("data/processed/r_analysis_ready.csv", show_col_types=FALSE)
+dir.create("outputs/r/data_quality", recursive=TRUE, showWarnings=FALSE)
+row_counts <- tibble(step=c("raw_rows_including_duplicates","unique_visit_ids_in_raw","cleaned_rows_after_duplicate_drop","analysis_ready_complete_visits","unique_providers_analysis_ready"), n=c(nrow(raw), n_distinct(raw$visit_id), nrow(clean), nrow(analysis), n_distinct(analysis$provider_id)))
+write_csv(row_counts, "outputs/r/data_quality/row_counts.csv")
+write_csv(tibble(variable=names(clean), missing_n=sapply(clean, function(x) sum(is.na(x))), total_n=nrow(clean), missing_pct=round(sapply(clean, function(x) mean(is.na(x))*100),2)), "outputs/r/data_quality/missingness_by_variable.csv")
