@@ -1,133 +1,157 @@
-# Immunization Provider Compliance: Applied Epidemiology and Monitoring & Evaluation Methods Project
+# Immunization Provider Compliance Methods
 
-## Project description
+**Author:** Aly Drame, MD, MPH, MBA  
+**Language:** R  
+**Domain:** Immunization program compliance, public health M&E  
+**Data:** Fully synthetic — generated for portfolio demonstration
 
-This repository is a synthetic, reproducible public health analytics project built around immunization-provider compliance monitoring from 2019 through 2025. It is written at the level of an applied MPH epidemiologist or public health analyst supporting an immunization program: cleaning routine program data, defining complete visits, assessing compliance domains, comparing provider groups, modeling non-compliance, monitoring trends, and turning results into practical program indicators.
+---
 
-The unit of analysis is a provider site visit. The primary outcome is provider non-compliance among complete visits, defined as one or more non-compliant findings across five compliance domains: training, eligibility, documentation, inventory, and storage/handling. The project uses synthetic data only. It contains no real patient, provider, jurisdiction, or program identifiers.
+## Public Health Question
 
-## Version 3.1 quality-control update
+Which provider, visit, and program characteristics are associated with immunization-provider non-compliance during site visits, and how can routine compliance data be used to monitor program performance, track indicators over time, and target technical assistance?
 
-Version 3.1 addresses the main scientific and cross-language issues found during review:
+---
 
-- Re-defined survival analysis as an incident-risk cohort, excluding baseline prevalent non-compliance from the primary time-to-event analysis.
-- Removed mechanically redundant variables from the correlation matrix.
-- Removed the intercept from exported odds-ratio tables.
-- Harmonized linear regression standard-error approach across Python, R, and SAS.
-- Added pre/post chi-square testing to the R and SAS M&E workflows.
-- Expanded SAS sensitivity analysis and dashboard exports.
-- Clarified that the post-2022 period does not demonstrate improvement in the synthetic data.
-- Fixed Version 2 documentation leftovers.
-- Added interpretation notes for prior technical assistance, model fit, and non-significant trend results.
+## Project Overview
 
-## Main public health question
+This portfolio project demonstrates an end-to-end applied epidemiology and M&E workflow for immunization-provider compliance monitoring from 2019 through 2025. It mirrors the analytic tasks a public health analyst or epidemiologist would execute when supporting an immunization program: cleaning routine surveillance data, defining complete visits, assessing compliance domains, comparing provider groups, modeling non-compliance predictors, monitoring trends, and translating results into program indicators and recommendations.
 
-Which provider, visit, and program characteristics are associated with immunization-provider non-compliance, and how can routine compliance data be used to monitor program performance and target technical assistance?
+The unit of analysis is a provider site visit. The primary outcome is provider non-compliance among complete visits, defined as one or more non-compliant findings across five domains: training, eligibility, documentation, inventory, and storage/handling.
 
-## Project subsections
+The analytic pipeline is implemented in R. The same dataset and analytic plan were also implemented in Python (executed and validated in the full project version) and SAS — all three produce consistent results from the same synthetic source file.
 
-1. Study protocol and outcome definition
-2. Synthetic data generation
-3. Data cleaning, sorting, and cohort definition
-4. Data quality assessment
-5. Descriptive epidemiology
-6. Comparative measures
-7. Correlation analysis
-8. Linear regression
-9. Logistic regression
-10. Time-series analysis
-11. Incident-risk survival analysis
-12. Sensitivity analysis
-13. Monitoring and Evaluation module
-14. Dashboard exports
-15. Validation and reproducibility
+---
 
-## Current execution status
+## Data
 
-- Python workflow: executed and validated.
-- R workflow: complete scripts included; local execution required.
-- SAS workflow: complete programs included; local execution required.
+All row-level files in this repository are synthetic. They are not CDC data, PEAR data, provider data, patient data, or site-visit records of any kind. No non-public working materials are included.
 
-R and SAS are intentionally not presented as executed because Rscript and SAS were not available in the build environment.
+| Dataset | Records | Notes |
+|---|---|---|
+| Raw synthetic site visits | 4,633 | Generated at fixed seed |
+| Analysis-ready visits | 2,784 | After cleaning and cohort definition |
+| Unique providers | 1,130 | Across all visit records |
+| Incident survival cohort | 558 providers | Excludes baseline prevalent non-compliance |
 
-## Current Python results
+---
 
-The Python workflow was executed and validated during the Version 3.1 build. Current generated results are:
+## Analytic Dimensions
 
-- Raw synthetic records: **4,633**
-- Analysis-ready visits: **2,784**
-- Unique providers: **1,130**
-- Overall non-compliance: **54.9%**
-- Mean compliance score: **4.12 of 5**
-- Highest non-compliance domain: **Documentation (22.5%)**
-- Incident survival cohort: **558 providers**
-- Baseline prevalent non-compliance exclusions: **572 providers**
-- Latest M&E quarter reviewed: **2025Q4**
-- Latest-quarter non-compliance: **58.3%**
-- M&E target status: **2 on track**, **8 needing attention**
+Non-compliance is examined across the following dimensions:
 
-The M&E output intentionally does not treat missed targets as automatic failure. It flags where program staff should review domain results, denominators, data quality, and field context before deciding what to change.
+- Provider category (physician practice, clinic, pharmacy, health department, etc.)
+- Provider size (number of enrolled patients)
+- Urbanicity (urban, suburban, rural)
+- Visit method (in-person vs. remote)
+- Region
+- Budget period
+- Compliance domain (training, eligibility, documentation, inventory, storage/handling)
+- Time in program (tenure cohorts)
 
-## Repository structure
+---
 
-```text
-immunization_provider_compliance_methods_v3/
+## Analytic Plan
+
+| Step | Outcome / Purpose | R Script |
+|---|---|---|
+| Data generation | Synthetic provider visit dataset | `01_generate_synthetic_data.R` |
+| Cleaning and cohort definition | Analysis-ready visits | `02_clean_sort_define.R` |
+| Data quality assessment | Missingness, range, consistency | `03_data_quality.R` |
+| Descriptive epidemiology | Visit and provider characterization | `04_descriptive_epi.R` |
+| Comparative measures | Risk ratios, chi-square, t-test | `05_comparative_measures.R` |
+| Correlation analysis | Domain and predictor correlations | `06_correlation_analysis.R` |
+| Linear regression | Compliance score (continuous) | `07_linear_regression.R` |
+| Logistic regression | Non-compliance (binary) | `08_logistic_regression.R` |
+| Time-series analysis | Quarterly non-compliance trend | `09_time_series_analysis.R` |
+| Survival analysis (KM, log-rank, Cox) | Time to first non-compliance | `10_survival_analysis.R` |
+| Sensitivity analysis | Alternate definitions and subgroups | `11_sensitivity_analysis.R` |
+| Dashboard exports | Summary tables and figures | `12_generate_dashboard_exports.R` |
+| Monitoring and evaluation | Indicator tracking, target performance | `13_monitoring_and_evaluation.R` |
+
+---
+
+## Repository Structure
+
+```
+immunization-provider-compliance/
 ├── README.md
-├── PROJECT_VERSION_3_SUMMARY.md
 ├── VERSION_3_1_QA_FIXES.md
-├── HUMAN_READABILITY_QA.md
-├── docs/
-├── data/
-├── python/
 ├── r/
-├── sas/
-├── outputs/
-├── dashboard/
-├── validation/
-└── audit_fixes/
+│   ├── README.md
+│   ├── requirements.R
+│   ├── run_all.R               # Sequential driver — source this
+│   └── scripts/
+│       ├── 01_generate_synthetic_data.R
+│       ├── 02_clean_sort_define.R
+│       ├── 03_data_quality.R
+│       ├── 04_descriptive_epi.R
+│       ├── 05_comparative_measures.R
+│       ├── 06_correlation_analysis.R
+│       ├── 07_linear_regression.R
+│       ├── 08_logistic_regression.R
+│       ├── 09_time_series_analysis.R
+│       ├── 10_survival_analysis.R
+│       ├── 11_sensitivity_analysis.R
+│       ├── 12_generate_dashboard_exports.R
+│       └── 13_monitoring_and_evaluation.R
+├── docs/
+│   ├── methods_overview.md
+│   ├── study_protocol.md
+│   ├── outcome_definitions.md
+│   ├── logic_model.md
+│   ├── evaluation_design.md
+│   ├── monitoring_and_evaluation_plan.md
+│   ├── indicator_reference_sheet.md
+│   ├── program_recommendations.md
+│   ├── interpretation_and_recommendations.md
+│   ├── bias_and_limitations.md
+│   ├── reproducibility_guide.md
+│   └── data_dictionary.csv
+└── data/
+    ├── raw/
+    │   └── synthetic_provider_compliance_raw.csv
+    └── reference/
+        ├── data_dictionary.csv
+        ├── expected_variable_specs.csv
+        └── indicator_matrix.csv
 ```
 
-## Run the Python workflow
+---
 
-```bash
-pip install -r python/requirements.txt
-python python/run_all.py
-python validation/validate_python_outputs.py
+## Key Results (Python-validated reference values)
+
+These figures were validated in the Python implementation of the same analytic plan and serve as reference benchmarks for the R pipeline.
+
+| Metric | Value |
+|---|---|
+| Analysis-ready visits | 2,784 |
+| Unique providers | 1,130 |
+| Overall non-compliance | 54.9% |
+| Mean compliance score | 4.12 of 5 |
+| Highest non-compliance domain | Documentation (22.5%) |
+| Incident survival cohort | 558 providers |
+| Latest M&E quarter reviewed | 2025 Q4 |
+| Latest-quarter non-compliance | 58.3% |
+| M&E indicators on track | 2 of 10 |
+| M&E indicators needing attention | 8 of 10 |
+
+The M&E output flags where program staff should review domain results, denominators, data quality, and field context — it does not treat a missed target as automatic failure.
+
+---
+
+## How to Run
+
+```r
+# Install required packages
+source("r/requirements.R")
+
+# Run full pipeline
+source("r/run_all.R")
 ```
 
-## M&E outputs
+Scripts run in sequence; outputs land in subdirectories created by `run_all.R`. Fixed seed — reruns reproduce the same synthetic data and results.
 
-- `data/reference/indicator_matrix.csv`
-- `docs/logic_model.md`
-- `docs/monitoring_and_evaluation_plan.md`
-- `docs/evaluation_design.md`
-- `docs/indicator_reference_sheet.md`
-- `docs/program_recommendations.md`
-- `outputs/python/monitoring_evaluation/tables/indicator_performance_by_quarter.csv`
-- `outputs/python/monitoring_evaluation/tables/target_tracking_summary.csv`
-- `outputs/python/monitoring_evaluation/tables/ta_coverage_by_provider_risk.csv`
-- `outputs/python/monitoring_evaluation/tables/followup_timeliness_summary.csv`
-- `outputs/python/monitoring_evaluation/tables/pre_post_evaluation_summary.csv`
-- `outputs/python/monitoring_evaluation/briefs/quarterly_program_brief.md`
+---
 
-## Skills demonstrated
-
-- Applied epidemiologic study design
-- Public health data cleaning and sorting
-- Data-quality assessment
-- Descriptive epidemiology
-- Comparative epidemiologic measures
-- Correlation analysis
-- Linear regression
-- Logistic regression
-- Time-series monitoring
-- Incident-risk survival analysis
-- Sensitivity analysis
-- M&E indicator design
-- Target tracking and dashboard-ready reporting
-- Program interpretation and recommendations
-- Python, R, and SAS workflow organization
-
-## Disclaimer
-
-This project uses synthetic data for portfolio demonstration. The findings are not real public health estimates and should not be used for policy or program decisions.
+*All data in this project are synthetic and were generated solely for portfolio demonstration. The findings are not real public health estimates and should not be used for policy or program decisions.*
