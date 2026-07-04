@@ -1,0 +1,6 @@
+field,expected_values,note
+provider_type,Public Health Clinic;Private Clinic;Pediatric Practice;Pharmacy;FQHC;Hospital,Unknown provider types are excluded from the analysis-ready file.
+rural_urban,Urban;Suburban;Rural,Unknown rural/urban values are excluded from the analysis-ready file.
+visit_year,2019-2025,Future or invalid dates are excluded.
+noncompliant,0;1,Defined among complete visits only.
+analysis_eligible,0;1,"Complete visit with valid identifiers, dates, provider type, geography, and all five domain values."
