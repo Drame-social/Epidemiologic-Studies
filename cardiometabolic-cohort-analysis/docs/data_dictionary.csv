@@ -1,0 +1,33 @@
+variable,dtype,description
+patient_id,object,Synthetic patient id
+enrollment_date,object,Enrollment date
+age,float64,Age (yrs)
+sex,object,Sex (standardized)
+race_ethnicity,object,Race/ethnicity
+region,object,US region
+smoking_status,object,Smoking
+insurance_type,object,Insurance
+physical_activity,object,Activity level
+family_history_cvd,int64,Family hx CVD (0/1)
+bmi,float64,BMI
+sbp_baseline,float64,Baseline SBP
+dbp_baseline,float64,Baseline DBP
+hba1c_baseline,float64,Baseline HbA1c
+ldl_baseline,float64,Baseline LDL
+egfr_baseline,float64,Baseline eGFR
+diabetes_baseline,int64,Diabetes (0/1)
+hypertension_baseline,int64,Hypertension (0/1)
+statin_use,int64,Statin (0/1)
+antihypertensive_use,int64,Antihypertensive (0/1)
+adherence_pct,float64,Adherence %
+sbp_12m,float64,12m SBP (linear outcome)
+hba1c_12m,float64,12m HbA1c (linear outcome)
+bp_controlled_12m,int64,12m BP control (logistic outcome)
+months_to_event,float64,Follow-up months (survival time)
+mace_event,int64,MACE indicator (survival event)
+event_date,object,MACE date (time-series)
+age_group,object,Age band
+bmi_cat,object,BMI category
+sex_male,int64,Male (0/1)
+enroll_year,int64,Enroll year
+enroll_month,object,Enroll year-month
